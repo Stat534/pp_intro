@@ -1,0 +1,162 @@
+---
+title: "Point Process Intro"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align= 'center')
+knitr::opts_chunk$set(fig.height= 3)
+knitr::opts_chunk$set(fig.width = 5)
+library(tidyverse)
+library(gridExtra)
+library(ggplot2)
+set.seed(04082019)
+```
+
+# Point Process Data
+
+### Point Process Motivation
+
+With point process data, the defining characteristic is that the location is random. Sketch two hypothetical point processes: one with a pattern and one without any spatial pattern.
+\vfill
+\vfill
+\vfill
+\vfill
+\vfill
+\vfill
+
+
+\newpage
+There are many interesting questions related to point process data.
+Consider, for example, locations of Ponderosa Pines and Aspen Trees. With location data for these trees, we can answer the following questions:
+
+\vfill  
+
+\vfill
+
+\vfill
+
+Point process data is also prevalent in public health settings; in this context the goal is to understand disease patterns. \vfill
+
+
+\vfill
+
+\vfill
+
+\vfill
+
+If there is additional meta-information associated with a point pattern, this can be used in what is known as a _marked_ point process. For instance, the location of a tree could be considered the point process with the marks associated with tree species.
+
+\vfill
+
+Discuss the interpretation of marked point process data set with continuous data. For instance, suppose that rather than tree species that the height of the tree was collected. What questions would be of interest?
+
+\vfill
+\newpage
+
+
+### Exploratory Point Process Analysis
+
+With point process data, there are a few things to assess.
+
+
+```{r, echo = T}
+n <- rpois(4, 50)
+x <- c(rbeta(n[1], 1, 1), rbeta(n[2], 1, 1), 
+       rbeta(n[3], 3, 1),rbeta(n[4], 3, 3))
+y <- c(rbeta(n[1], 1, 1), rbeta(n[2], 1, 1), 
+       rbeta(n[3], 3, 1),rbeta(n[4], 3, 3))
+```
+
+```{r}
+data.frame(group = c(rep(1, n[1]), rep(2, n[2]), rep(3, n[3]), rep(4, n[4])), x = x, y = y) %>% ggplot(aes(x=x, y=y)) + geom_point() + facet_wrap(~group) + theme_bw()
+```
+\vfill
+\vfill
+
+\vfill
+
+\vfill
+ 
+\newpage 
+
+### Theoretical Details
+
+Our focus will be largely on $\mathcal{R}^2$, but the same principles apply for other dimensions.
+
+\vfill
+
+
+\vfill
+
+To specify a probabilistic model for $\mathcal{S}$, there are two essential elements.
+
+\vfill
+
+
+\vfill
+
+Then the likelihood of $\mathcal{S}$ can be written as
+$$\mathcal{L}(\mathcal{S}) = Pr(\mathcal{N}(d) = n) n! f(\boldsymbol{s}_1, \dots,  \boldsymbol{s}_n)$$
+\vfill
+
+Given the likelihood, the point pattern model is stationary if $$f(\boldsymbol{s}_1, \dots,  \boldsymbol{s}_n) = f(\boldsymbol{s}_1 + \boldsymbol{h}, \dots,  \boldsymbol{s}_n+ \boldsymbol{h})$$
+
+\vfill
+
+#### Counting Measure
+
+
+\vfill
+
+\vfill
+
+\vfill
+
+\vfill
+
+\newpage
+
+If $\mathcal{B}_1$ and $\mathcal{B}_2$ are disjoint, then $N(\mathcal{B})_1$ and $N(\mathcal{B})_2$ are independent.
+
+\vfill
+
+Sketch $\mathcal{D}$ such that $\mathcal{B}_1$ and $\mathcal{B}_2$ are disjoint.
+\vfill
+\vfill
+\vfill
+\vfill
+\vfill
+
+What would $\lambda(\mathcal{B}_1)$ and $\lambda(\mathcal{B}_2)$ be if we had spatial homogeneity?
+\vfill
+
+
+\vfill
+
+\vfill
+
+\vfill
+
+Note $\lambda(\mathcal{D}) = \int_D \lambda{\boldsymbol{s}} d\boldsymbol{s}$ is an intensity measure, not a probability distribution. 
+\vfill
+\newpage
+
+#### Nonhomogenous Poisson process
+A HPP is the simplest form of a point process, sketch the intensity function or a nonhomogenous Poisson process (NHPP). 
+
+\vfill
+\vfill
+\vfill
+\vfill
+
+
+\vfill
+
+
+\vfill
+
+\vfill
