@@ -1,0 +1,73 @@
+---
+title: "PP Hypothesis Tests"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align= 'center')
+knitr::opts_chunk$set(fig.height= 3)
+knitr::opts_chunk$set(fig.width = 5)
+library(tidyverse)
+library(gridExtra)
+set.seed(04082019)
+```
+
+### Hypothesis Tests for CSR
+
+- With a spatial point process, *a single realization from the underlying point process is observed.*
+\vfill
+- Hypothesis tests and Monte Carlo simulation procedures allow testing for departures from Complete Spatial Randomness (CSR).
+\vfill
+- Devise and implement a Monte Carlo-based test for CSR. First detail your test statistic and implementation, then assess the results with the four data sets from Lecture 21.
+```{r}
+set.seed(04082019)
+n <- rpois(4, 50)
+
+x <- c(rbeta(n[1], 1, 1), rbeta(n[2], 1, 1), rbeta(n[3], 3, 1),rbeta(n[4], 3, 3))
+y <- c(rbeta(n[1], 1, 1), rbeta(n[2], 1, 1), rbeta(n[3], 3, 1),rbeta(n[4], 3, 3))
+
+data.frame(group = c(rep(1, n[1]), rep(2, n[2]), rep(3, n[3]), rep(4, n[4])), x = x, y = y) %>% ggplot(aes(x=x, y=y)) + geom_point(alpha=.6) + facet_wrap(~group)
+```
+\vfill
+\vfill
+\vfill
+\vfill
+\newpage
+
+#### G and F Functions
+
+- One way to describe a spatial point process, is to consider the probability of being a certain distance from a point or similarly, the number of points expected in a distance from a point.
+\vfill
+- *Define $Num(\boldsymbol{s}, d; \boldsymbol{S})$ as the number of points from $\boldsymbol{S}$ in a circle of diameter $d$ from point $\boldsymbol{s}$.*
+\vfill
+- Then we can compute the probability that more than one point exists with a distance $d$ of an observed point.
+$$E_{\boldsymbol{S}} \left(\sum_{\boldsymbol{s_i} \in \boldsymbol{S}} 1(Num(\boldsymbol{s}_i),d;\boldsymbol{S}) > 0 \right) = \lambda |\boldsymbol{D}| P(Num_d(\boldsymbol{s},d;\boldsymbol{S})> 0)$$
+
+
+\vfill
+- The term $P(Num_d(\boldsymbol{s},d;\boldsymbol{S})> 0$ is referred to as $G(d)$. $G(d)$ increases in $d$.
+\vfill
+- *The $G(d)$ function is simiilar to a CDF of the __nearest neighbor__ distance*
+\vfill
+- A similar statistic is the $F(d)$ function. Whereas $G(d)$ is centered at the observed $\boldsymbol{s}_i$, $F(d)$ is defined at any arbitrary point. *Hence this is a CDF for empty space*.
+\vfill
+- __QUESTION:__ Assume a CSR Poisson process with constant intensity $\lambda$, calculate $F(d)$ or $G(d)$ (they are the same).
+\vfill
+\newpage
+
+- Discuss how to create an empirical estimate of $\hat{G}(d)$, given a realization of a point process.
+\vfill
+- With bounded area, edge correction procedures are necessary. *Hence, consider*
+$$\hat{G}(d) = \frac{\sum_i 1(d_i \leq d < b_i)}{\sum_i 1(d < b_i)},$$
+*where $b_i$ is the distance from $\boldsymbol{s}_i$ to the edge and $d_i$ is the distance to the nearest neigbor of $\boldsymbol{s}_i$.*
+\vfill
+- The empirical estimates of $G$ or $H$ can be compared with $G$ or $F$ using a QQ-plot.
+\vfill
+- __Discuss:__ What would be the implications of shorter tails or longer tails than expected under CSR? *shorter tail = clustering/attraction, longer tail = inhibition/repulsion*
+\vfill
+- *Describe a natural process that might cluster and another than might repel*
+\vfill
+\newpage
