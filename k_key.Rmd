@@ -1,0 +1,82 @@
+---
+title: "K function"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align= 'center')
+knitr::opts_chunk$set(fig.height= 4)
+knitr::opts_chunk$set(fig.width = 6)
+library(tidyverse)
+library(gridExtra)
+library(smacpod)
+library(spatstat)
+set.seed(04132021)
+```
+
+### K function
+
+We previously looked at the $F(d)$ and $G(d)$ functions, which corresponded to *CDFs, as a function of distance, for open space and distance between points.*
+
+\vfill
+
+Another interesting feature of a point process is the number of points in a specified area. Consider $E(Num(\boldsymbol{s},d,\boldsymbol{S}))$, the expected number of points in $\delta_d\boldsymbol{s}$, a circle of radius $d$ centered at $\boldsymbol{s}$.
+\vfill
+
+*Ripley's K or just the K function, considers the expected number of points within a distance $d$ of an arbitrary point. Formally this is defined for CSR as*
+$$K(d) = \frac{E(\text{number of points within d})}{\lambda}$$.
+*In other words, this is scaled by $\lambda$*
+\vfill
+
+With CSR, $K(d) = \frac{\lambda \pi d^2}{\lambda} = \lambda d^2.$
+\vfill
+
+To estimate $K(d)$, *we use*
+$$\hat{K}(d) = (\hat{\lambda})^{-1}\sum_i \sum_j 1(||\boldsymbol{s}_i - \boldsymbol{s}_j|| \leq d)/n$$
+*where $\hat{\lambda} = n / |\mathcal{D}|$, note the typo in the book.*
+\vfill
+
+The empirical $K$ statistic is compared with $\pi d^2$. *For $K > \pi d^2$, the series exhibits clustering, for $K < \pi d^2$ the process exhibits inhibition.*
+\vfill
+
+\newpage
+
+###  More `spatstat`
+
+Consider a dataset with medieval grave site information.
+```{r, echo = T, message = F}
+data(grave)
+summary(grave)
+plot(grave)
+plot(envelope(grave, Kest, verbose = F))
+plot(envelope(grave, Fest, verbose = F))
+plot(envelope(grave, Gest, verbose = F))
+```
+\vfill
+
+
+### Estimating the intensity Function 
+
+- With CSR, the intensity function is trivial - *Just uniform with intensity $\lambda$*.
+\vfill
+- __Discuss:__ given a realization of a point process, how could an intensity function be estimated?
+\vfill
+
+*One option would be to discretized histogram. Consider a fine grid, then let $\lambda(\delta \boldsymbol{s}) = \int_{\delta \boldsymbol{s}} \lambda(\boldsymbol{s}) d\boldsymbol{s} \approx \lambda(\boldsymbol{s}) |\delta \boldsymbol{s}|,$ where $\lambda(\boldsymbol{s})$ is constant over the grid square. Thus $\lambda(grid) = \frac{Num(grid)}{Area(grid)}$*
+\vfill
+
+*An alternative is to use kernel density estimates. These are basically a smoothed version of a histogram using some sort of symmetric PDF.*
+\vfill
+
+\newpage
+Now using the `plot(density(.))` function, plot and interpret the empirical intensity for the grave dataset along with the four synthetic examples.
+
+```{r}
+plot(density(grave))
+```
+
+
+\vfill

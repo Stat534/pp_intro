@@ -1,0 +1,80 @@
+---
+title: "K function"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align= 'center')
+knitr::opts_chunk$set(fig.height= 4)
+knitr::opts_chunk$set(fig.width = 6)
+library(tidyverse)
+library(gridExtra)
+library(smacpod)
+library(spatstat)
+set.seed(04132021)
+```
+
+### K function
+
+We previously looked at the $F(d)$ and $G(d)$ functions, which corresponded to 
+
+
+\vfill
+
+Another interesting feature of a point process is the number of points in a specified area. Consider $E(Num(\boldsymbol{s},d,\boldsymbol{S}))$, the expected number of points in $\delta_d\boldsymbol{s}$, a circle of radius $d$ centered at $\boldsymbol{s}$.
+\vfill
+
+
+
+\vfill
+
+With CSR, $K(d) = \frac{\lambda \pi d^2}{\lambda} = \lambda d^2.$
+\vfill
+
+To estimate $K(d)$, *we use*
+$$\hat{K}(d) = (\hat{\lambda})^{-1}\sum_i \sum_j 1(||\boldsymbol{s}_i - \boldsymbol{s}_j|| \leq d)/n$$
+\vfill
+
+The empirical $K$ statistic is compared with $\pi d^2$.
+
+\vfill
+
+\newpage
+
+###  More `spatstat`
+
+Consider a dataset with medieval grave site information.
+```{r, echo = T, message = F}
+data(grave)
+summary(grave)
+plot(grave)
+plot(envelope(grave, Kest, verbose = F))
+plot(envelope(grave, Fest, verbose = F))
+plot(envelope(grave, Gest, verbose = F))
+```
+\vfill
+
+
+### Estimating the intensity Function 
+
+- With CSR, the intensity function is trivial 
+\vfill
+- __Discuss:__ given a realization of a point process, how could an intensity function be estimated?
+\vfill
+
+\vfill
+
+\vfill
+
+\newpage
+Now using the `plot(density(.))` function, plot and interpret the empirical intensity for the grave dataset along with the four synthetic examples.
+
+```{r}
+plot(density(grave))
+```
+
+
+\vfill
